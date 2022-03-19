@@ -1,0 +1,35 @@
+package Pack2;
+
+import java.util.concurrent.Semaphore;
+
+public class class1b extends Thread{
+	Semaphore t;
+	private int tnum;
+	private int totw=200;
+	public class1b(Semaphore t,int tnum) {
+		this.t=t;
+		this.tnum=tnum;
+	}
+	@Override
+	public void run() {
+		while (totw>0){
+			int randnum = (int) ((Math.random()*3)+4);
+			totw-=randnum;
+			System.out.println("Thread: "+tnum+" percorreu: "+randnum+"ms está a: "+totw+"m da porta");
+		}
+		System.out.println("Thread: "+tnum+" chegou na porta");
+		try {
+			t.acquire();
+			System.out.println("Thread: "+tnum+" abrindo a porta");
+			int rand= (int)((Math.random()*2)+1)*1000;
+			sleep(rand);
+			System.out.println("Thread: "+tnum+" finalizada");
+		}catch(Exception e) {
+			
+		}finally{
+			t.release();
+		}
+		super.run();
+	}
+	
+}
